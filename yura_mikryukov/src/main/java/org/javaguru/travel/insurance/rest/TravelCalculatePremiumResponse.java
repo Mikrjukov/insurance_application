@@ -26,10 +26,11 @@ public class TravelCalculatePremiumResponse {
     public Date getAgreementDateTo() {return agreementDateTo;}
 
 
-    public void setPersonFirstName() {this.personFirstName = personFirstName;}
-    public void setPersonLastName() {this.personLastName = personLastName;}
-    public void setAgreementDateFrom() {this.agreementDateFrom = agreementDateFrom;}
-    public void setAgreementDateTo() {this.agreementDateTo = agreementDateTo;}
+    public void setPersonFirstName(String personFirstName) {this.personFirstName = personFirstName;}
+    public void setPersonLastName(String personLastName) {this.personLastName = personLastName;}
+    public void setAgreementDateFrom(Date agreementDateFrom) {this.agreementDateFrom = agreementDateFrom;}
+    public void setAgreementDateTo(Date agreementDateTo) {this.agreementDateTo = agreementDateTo;}
+
 
 
 }
