@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 
-public class DataTimeServica {
+public class DateTimeService {
 
     public long calculateDaysBetween(Date dateFrom, Date dateTo) {
         if (dateFrom == null || dateTo == null) {

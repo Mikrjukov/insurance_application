@@ -5,9 +5,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.Date;
 
-class DataTimeServicaTest {
+class DateTimeServicaTest {
 
-    private DataTimeServica dateTimeService = new DataTimeServica();
+    private DateTimeService dateTimeService = new DateTimeService();
 
     @Test
     void shouldCalculateDaysBetweenDates() {

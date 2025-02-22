@@ -40,5 +40,11 @@ subprojects {
         delete "${projectDir}/build/"
         println "${projectDir}/build/"
     }
+    dependencies {
+        testImplementation 'org.mockito:mockito-core:5.3.1' // Актуальная версия Mockito
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2' // JUnit 5 (если еще не подключен)
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2' // JUnit 5 (если еще не подключен)
+    }
+
 
 }
