@@ -1,19 +1,22 @@
 package org.javaguru.travel.insurance.core;
 
+import lombok.RequiredArgsConstructor;
+import lombok.AccessLevel;
+
 import org.javaguru.travel.insurance.rest.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.rest.TravelCalculatePremiumResponse;
 import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
-import java.time.temporal.ChronoUnit;
-import java.util.concurrent.TimeUnit;
 
 @Component
-class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService {
 
-    private DateTimeService dateTimeService;
-    public TravelCalculatePremiumServiceImpl(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+
+public class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService {
+
+    private final DateTimeService dateTimeService;
+
+
 
     @Override
     public TravelCalculatePremiumResponse calculatePremium(TravelCalculatePremiumRequest request) {
@@ -28,11 +31,7 @@ class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService
                 response.getAgreementDateTo());
 
         response.setAgreementPrice(new BigDecimal(daysBetween));
-
         return response;
     }
-
-
-
-
 }
+
