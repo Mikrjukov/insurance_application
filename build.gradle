@@ -40,16 +40,5 @@ subprojects {
         delete "${projectDir}/build/"
         println "${projectDir}/build/"
     }
-    dependencies {
-        testImplementation 'org.mockito:mockito-core:5.3.1'
-        testImplementation 'net.bytebuddy:byte-buddy:1.14.9' // Byte Buddy
-        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2' // JUnit 5 API
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2' // JUnit 5 Engine
-    }
-
-    test {
-        useJUnitPlatform() // Включаем поддержку JUnit 5
-        jvmArgs = ["-XX:+EnableDynamicAgentLoading"] // Разрешаем динамическую загрузку агентов
-    }
 
 }
