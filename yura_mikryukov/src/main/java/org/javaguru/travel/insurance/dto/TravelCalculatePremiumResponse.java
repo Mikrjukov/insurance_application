@@ -1,19 +1,20 @@
-package org.javaguru.travel.insurance.rest;
+package org.javaguru.travel.insurance.dto;
 
-import lombok.Getter;
 import lombok.Setter;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
 import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 
-public class TravelCalculatePremiumRequest {
+public class TravelCalculatePremiumResponse extends CoreResponse {
 
     private String personFirstName;
     private String personLastName;
@@ -21,6 +22,11 @@ public class TravelCalculatePremiumRequest {
     private Date agreementDateTo;
     private BigDecimal agreementPrice;
 
+    public TravelCalculatePremiumResponse(List<ValidationError> errors) {
+        super(errors);
+    }
+
+
+
 
 }
-

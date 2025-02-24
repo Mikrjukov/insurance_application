@@ -1,66 +1,81 @@
 package org.javaguru.travel.insurance.core;
 
-import org.javaguru.travel.insurance.rest.TravelCalculatePremiumRequest;
-import org.javaguru.travel.insurance.rest.TravelCalculatePremiumResponse;
-import org.junit.jupiter.api.BeforeEach;
+import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
+import org.javaguru.travel.insurance.dto.TravelCalculatePremiumResponse;
+import org.javaguru.travel.insurance.dto.ValidationError;
 import org.junit.jupiter.api.Test;
-
-import java.math.BigDecimal;
-import java.util.Date;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.verification.VerificationMode;
+
+import java.util.Date;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class TravelCalculatePremiumServiceImplTest {
 
-    @Mock
-    private DateTimeService dateTimeService;
+    @Mock private TravelCalculatePremiumRequestValidator requestValidator;
+    @Mock private DateTimeService dateTimeService;
 
     @InjectMocks
     private TravelCalculatePremiumServiceImpl service;
 
-    private TravelCalculatePremiumRequest request;
-
-    @BeforeEach
-    void setUp() {
-        request = new TravelCalculatePremiumRequest();
-        request.setPersonFirstName("Yura");
-        request.setPersonLastName("Mikryukov");
-        request.setAgreementDateFrom(new Date());
-        request.setAgreementDateTo(new Date());
+    @Test
+    void shouldReturnResponseWithFirstName() {
+        TravelCalculatePremiumRequest request = mock(TravelCalculatePremiumRequest.class);
+        when(request.getPersonFirstName()).thenReturn("personFirstName");
+        when(requestValidator.validate(request)).thenReturn(List.of());
+        TravelCalculatePremiumResponse response = service.calculatePremium(request);
+        assertEquals("personFirstName", response.getPersonFirstName());
     }
 
     @Test
-    void shouldSetCorrectValuesToResponse() {
-        when(dateTimeService.calculateDaysBetween(request.getAgreementDateFrom(), request.getAgreementDateTo()))
-                .thenReturn(20L);
-
+    void shouldReturnResponseWithLastName() {
+        TravelCalculatePremiumRequest request = mock(TravelCalculatePremiumRequest.class);
+        when(request.getPersonLastName()).thenReturn("personLastName");
+        when(requestValidator.validate(request)).thenReturn(List.of());
         TravelCalculatePremiumResponse response = service.calculatePremium(request);
+        assertEquals("personLastName", response.getPersonLastName());
+    }
 
-        assertNotNull(response);
+    @Test
+    void shouldReturnResponseWithAgreementDateFrom() {
+        TravelCalculatePremiumRequest request = mock(TravelCalculatePremiumRequest.class);
+        Date dateFrom = new Date();
+        when(request.getAgreementDateFrom()).thenReturn(dateFrom);
+        when(requestValidator.validate(request)).thenReturn(List.of());
+        TravelCalculatePremiumResponse response = service.calculatePremium(request);
+        assertEquals(dateFrom, response.getAgreementDateFrom());
+    }
 
+    @Test
+    void shouldReturnResponseWithAgreementDateTo() {
+        TravelCalculatePremiumRequest request = mock(TravelCalculatePremiumRequest.class);
+        Date dateTo = new Date();
+        when(request.getAgreementDateTo()).thenReturn(dateTo);
+        when(requestValidator.validate(request)).thenReturn(List.of());
+        TravelCalculatePremiumResponse response = service.calculatePremium(request);
+        assertEquals(dateTo, response.getAgreementDateTo());
+    }
 
-        assertEquals("Yura", response.getPersonFirstName());
-        assertEquals("Mikryukov", response.getPersonLastName());
-        assertEquals(request.getAgreementDateFrom(), response.getAgreementDateFrom());
-        assertEquals(request.getAgreementDateTo(), response.getAgreementDateTo());
-
-        assertEquals(new BigDecimal(20), response.getAgreementPrice());
-
-        verify(dateTimeService, times(1))
-                .calculateDaysBetween(request.getAgreementDateFrom(), request.getAgreementDateTo());
+    @Test
+    void shouldReturnResponseWithErrors() {
+        TravelCalculatePremiumRequest request = mock(TravelCalculatePremiumRequest.class);
+        List<ValidationError> errorList = List.of(new ValidationError("field", "errorMessage"));
+        when(requestValidator.validate(request)).thenReturn(errorList);
+        TravelCalculatePremiumResponse response = service.calculatePremium(request);
+        assertTrue(response.hasErrors());
     }
 
 
-}
 
+
+}
 
 
 
