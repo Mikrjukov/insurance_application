@@ -24,6 +24,7 @@ class TravelCalculatePremiumRequestValidatorTest {
         when(request.getPersonFirstName()).thenReturn("");
         when(request.getPersonLastName()).thenReturn("Last");
         when(request.getAgreementDateFrom()).thenReturn(new Date());
+        when(request.getAgreementDateTo()).thenReturn(new Date());
 
         List<ValidationError> errors = requestValidator.validate(request);
 
@@ -38,6 +39,7 @@ class TravelCalculatePremiumRequestValidatorTest {
         when(request.getPersonFirstName()).thenReturn("First");
         when(request.getPersonLastName()).thenReturn("");
         when(request.getAgreementDateFrom()).thenReturn(new Date());
+        when(request.getAgreementDateTo()).thenReturn(new Date());
 
         List<ValidationError> errors = requestValidator.validate(request);
 
@@ -52,11 +54,27 @@ class TravelCalculatePremiumRequestValidatorTest {
         when(request.getPersonFirstName()).thenReturn("First");
         when(request.getPersonLastName()).thenReturn("Last");
         when(request.getAgreementDateFrom()).thenReturn(null);
+        when(request.getAgreementDateTo()).thenReturn(new Date());
 
         List<ValidationError> errors = requestValidator.validate(request);
 
         assertThat(errors).hasSize(1)
                 .extracting(ValidationError::getField)
                 .containsExactly("AgreementDateFrom");
+    }
+    @Test
+    void shouldReturnErrorWhenAgreementDateToIsNull() {
+        TravelCalculatePremiumRequest request = mock(TravelCalculatePremiumRequest.class);
+        when(request.getPersonFirstName()).thenReturn("First");
+        when(request.getPersonLastName()).thenReturn("Last");
+        when(request.getAgreementDateFrom()).thenReturn(new Date());
+        when(request.getAgreementDateTo()).thenReturn(null);
+
+
+        List<ValidationError> errors = requestValidator.validate(request);
+
+        assertThat(errors).hasSize(1)
+                .extracting(ValidationError::getField)
+                .containsExactly("AgreementDateTo");
     }
 }
