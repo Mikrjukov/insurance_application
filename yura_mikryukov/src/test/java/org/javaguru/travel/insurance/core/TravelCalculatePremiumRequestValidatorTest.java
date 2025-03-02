@@ -5,7 +5,6 @@ import org.javaguru.travel.insurance.dto.ValidationError;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,10 +22,12 @@ class TravelCalculatePremiumRequestValidatorTest {
         TravelCalculatePremiumRequest request = mock(TravelCalculatePremiumRequest.class);
         when(request.getPersonFirstName()).thenReturn("");
         when(request.getPersonLastName()).thenReturn("Last");
-        when(request.getAgreementDateFrom()).thenReturn(new Date());
-        when(request.getAgreementDateTo()).thenReturn(new Date());
+        when(request.getAgreementDateFrom()).thenReturn(LocalDate.now());
+        when(request.getAgreementDateTo()).thenReturn(LocalDate.now());
 
         List<ValidationError> errors = requestValidator.validate(request);
+        errors.forEach(error -> System.out.println("Field: " + error.getField() + ", Message: " + error.getMessage()));
+
 
         assertThat(errors).hasSize(1)
                 .extracting(ValidationError::getField)
@@ -38,10 +39,12 @@ class TravelCalculatePremiumRequestValidatorTest {
         TravelCalculatePremiumRequest request = mock(TravelCalculatePremiumRequest.class);
         when(request.getPersonFirstName()).thenReturn("First");
         when(request.getPersonLastName()).thenReturn("");
-        when(request.getAgreementDateFrom()).thenReturn(new Date());
-        when(request.getAgreementDateTo()).thenReturn(new Date());
+        when(request.getAgreementDateFrom()).thenReturn(LocalDate.now());
+        when(request.getAgreementDateTo()).thenReturn(LocalDate.now());
 
         List<ValidationError> errors = requestValidator.validate(request);
+        errors.forEach(error -> System.out.println("Field: " + error.getField() + ", Message: " + error.getMessage()));
+
 
         assertThat(errors).hasSize(1)
                 .extracting(ValidationError::getField)
@@ -54,7 +57,7 @@ class TravelCalculatePremiumRequestValidatorTest {
         when(request.getPersonFirstName()).thenReturn("First");
         when(request.getPersonLastName()).thenReturn("Last");
         when(request.getAgreementDateFrom()).thenReturn(null);
-        when(request.getAgreementDateTo()).thenReturn(new Date());
+        when(request.getAgreementDateTo()).thenReturn(LocalDate.now());
 
         List<ValidationError> errors = requestValidator.validate(request);
 
@@ -67,7 +70,7 @@ class TravelCalculatePremiumRequestValidatorTest {
         TravelCalculatePremiumRequest request = mock(TravelCalculatePremiumRequest.class);
         when(request.getPersonFirstName()).thenReturn("First");
         when(request.getPersonLastName()).thenReturn("Last");
-        when(request.getAgreementDateFrom()).thenReturn(new Date());
+        when(request.getAgreementDateFrom()).thenReturn(LocalDate.now());
         when(request.getAgreementDateTo()).thenReturn(null);
 
 

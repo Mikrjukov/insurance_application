@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.math.BigDecimal;
 
 @AllArgsConstructor
@@ -17,8 +17,8 @@ public class TravelCalculatePremiumRequest {
 
     private String personFirstName;
     private String personLastName;
-    private Date agreementDateFrom;
-    private Date agreementDateTo;
+    private LocalDate agreementDateFrom;
+    private LocalDate agreementDateTo;
     private BigDecimal agreementPrice;
 
 

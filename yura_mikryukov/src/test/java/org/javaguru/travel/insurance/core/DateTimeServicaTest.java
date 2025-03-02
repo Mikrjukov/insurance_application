@@ -3,26 +3,27 @@ package org.javaguru.travel.insurance.core;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import java.util.Date;
 
-class DateTimeServicaTest {
+import java.time.LocalDate;
+
+class DateTimeServiceTest {
 
     private DateTimeService dateTimeService = new DateTimeService();
 
     @Test
     void shouldCalculateDaysBetweenDates() {
-        Date dateFrom = new Date(2024,10,12);
-        Date dateTo = new Date(2025, 07,13);
+        LocalDate dateFrom = LocalDate.of(2024, 10, 12);
+        LocalDate dateTo = LocalDate.of(2025, 7, 13);
 
         long daysBetween = dateTimeService.calculateDaysBetween(dateFrom, dateTo);
 
-        assertEquals(274,daysBetween);
+        assertEquals(274, daysBetween);
     }
 
     @Test
     void shouldReturnZeroIfAnyDateIsNull() {
-        Date dateFrom = new Date(2023 - 1900, 10, 1);
-        Date dateTo = null;
+        LocalDate dateFrom = LocalDate.of(1900, 10, 1);
+        LocalDate dateTo = null;
 
         long daysBetween = dateTimeService.calculateDaysBetween(dateFrom, dateTo);
 

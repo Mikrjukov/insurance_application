@@ -9,7 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -46,7 +46,7 @@ class TravelCalculatePremiumServiceImplTest {
     @Test
     void shouldReturnResponseWithAgreementDateFrom() {
         TravelCalculatePremiumRequest request = mock(TravelCalculatePremiumRequest.class);
-        Date dateFrom = new Date();
+        LocalDate dateFrom = LocalDate.now();
         when(request.getAgreementDateFrom()).thenReturn(dateFrom);
         when(requestValidator.validate(request)).thenReturn(List.of());
         TravelCalculatePremiumResponse response = service.calculatePremium(request);
@@ -56,7 +56,7 @@ class TravelCalculatePremiumServiceImplTest {
     @Test
     void shouldReturnResponseWithAgreementDateTo() {
         TravelCalculatePremiumRequest request = mock(TravelCalculatePremiumRequest.class);
-        Date dateTo = new Date();
+        LocalDate dateTo = LocalDate.now();
         when(request.getAgreementDateTo()).thenReturn(dateTo);
         when(requestValidator.validate(request)).thenReturn(List.of());
         TravelCalculatePremiumResponse response = service.calculatePremium(request);
