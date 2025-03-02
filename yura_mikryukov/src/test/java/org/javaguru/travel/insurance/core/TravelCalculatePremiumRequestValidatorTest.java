@@ -23,7 +23,7 @@ class TravelCalculatePremiumRequestValidatorTest {
         when(request.getPersonFirstName()).thenReturn("");
         when(request.getPersonLastName()).thenReturn("Last");
         when(request.getAgreementDateFrom()).thenReturn(LocalDate.now());
-        when(request.getAgreementDateTo()).thenReturn(LocalDate.now());
+        when(request.getAgreementDateTo()).thenReturn(LocalDate.now().plusDays(1));
 
         List<ValidationError> errors = requestValidator.validate(request);
         errors.forEach(error -> System.out.println("Field: " + error.getField() + ", Message: " + error.getMessage()));
@@ -40,7 +40,7 @@ class TravelCalculatePremiumRequestValidatorTest {
         when(request.getPersonFirstName()).thenReturn("First");
         when(request.getPersonLastName()).thenReturn("");
         when(request.getAgreementDateFrom()).thenReturn(LocalDate.now());
-        when(request.getAgreementDateTo()).thenReturn(LocalDate.now());
+        when(request.getAgreementDateTo()).thenReturn(LocalDate.now().plusDays(1));
 
         List<ValidationError> errors = requestValidator.validate(request);
         errors.forEach(error -> System.out.println("Field: " + error.getField() + ", Message: " + error.getMessage()));
@@ -80,4 +80,19 @@ class TravelCalculatePremiumRequestValidatorTest {
                 .extracting(ValidationError::getField)
                 .containsExactly("AgreementDateTo");
     }
+    @Test
+    void shouldReturnErrorWhenAgreementDateToIsBeforeAgreementDateFrom() {
+        TravelCalculatePremiumRequest request = mock(TravelCalculatePremiumRequest.class);
+        when(request.getAgreementDateFrom()).thenReturn(LocalDate.now());
+        when(request.getAgreementDateTo()).thenReturn(LocalDate.now().minusDays(1));
+
+        List<ValidationError> errors = requestValidator.validate(request);
+
+
+        assertThat(errors).anyMatch(error ->
+                error.getField().equals("agreementDateTo") &&
+                        error.getMessage().equals("Must be after agreementDateFrom")
+        );
+    }
+
 }
