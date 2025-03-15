@@ -15,7 +15,7 @@ import java.util.List;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 
-public class TravelCalculatePremiumServiceImpl extends TravelCalculatePremiumService {
+public class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService {
 
     private final UnderwritingService premiumUnderwriting;
     private final TravelCalculatePremiumRequestValidator requestValidator;
