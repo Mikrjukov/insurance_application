@@ -9,7 +9,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,6 +26,11 @@ class TravelCalculatePremiumServiceImplTest {
 
     @InjectMocks
     private TravelCalculatePremiumServiceImpl service;
+
+    private LocalDate createDate(String date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        return LocalDate.parse(date, formatter);
+    }
 
     @Test
     void shouldReturnResponseWithFirstName() {
@@ -70,6 +77,16 @@ class TravelCalculatePremiumServiceImplTest {
         when(requestValidator.validate(request)).thenReturn(errorList);
         TravelCalculatePremiumResponse response = service.calculatePremium(request);
         assertTrue(response.hasErrors());
+    }
+    @Test
+    public void shouldReturnResponseWithCorrectAgreementPrice() {
+        TravelCalculatePremiumRequest request = mock(TravelCalculatePremiumRequest.class);
+        when(request.getAgreementDateFrom()).thenReturn(createDate("01.01.2023"));
+        when(request.getAgreementDateTo()).thenReturn(createDate("10.01.2023"));
+        when(requestValidator.validate(request)).thenReturn(List.of());
+        when(premiumUnderwriting.calculatePremium(request)).thenReturn(new BigDecimal(9));
+        TravelCalculatePremiumResponse response = service.calculatePremium(request);
+        assertEquals(response.getAgreementPrice(), new BigDecimal(9));
     }
 
 
